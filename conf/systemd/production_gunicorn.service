@@ -1,0 +1,24 @@
+[Unit]
+Description=Gunicorn daemon
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+RuntimeDirectory=gunicorn
+EnvironmentFile=/var/www/.env
+WorkingDirectory=/var/www
+ExecStart=/usr/local/bin/poetry run gunicorn \
+  webapp.wsgi:application \
+  --access-logfile=- \
+  --timeout=60 \
+  --log-level=error \
+  --max-requests=500 \
+  --workers=2 \
+  --threads=3 \
+  --bind=unix:/var/run/gunicorn/gunicorn.socket
+ExecReload=/bin/kill -s HUP $MAINPID
+
+[Install]
+WantedBy=multi-user.target

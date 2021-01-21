@@ -1,0 +1,22 @@
+[Unit]
+Description=Celery worker
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+RuntimeDirectory=celery
+EnvironmentFile=/var/www/.env
+WorkingDirectory=/var/www
+Restart=always
+ExecStart=/var/www/.venv/bin/python -m celery worker \
+  --app webapp \
+  --loglevel error \
+  --pidfile /var/run/celery/celery.pid \
+  --task-events
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill -s TERM $MAINPID
+
+[Install]
+WantedBy=multi-user.target
