@@ -1,6 +1,6 @@
 # Intended to be run within Docker backend container during development
 SRC_FILES := $(shell find ./src -name *.py)
-APPS := webapp users
+APPS := webapp users common
 TEST_OPTIONS := --keepdb
 POETRY_RUN := poetry run
 POETRY_MANAGE := $(POETRY_RUN) /var/www/src/manage.py

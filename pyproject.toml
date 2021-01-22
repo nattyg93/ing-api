@@ -26,8 +26,11 @@ djangorestframework = "~=3.10.3" # does not follow semver
 djangorestframework-filters = ">=1.0.0.dev0"
 djangorestframework-jsonapi = "^3.1"
 gunicorn = "^19.9"
+numpy = "^1.19.5"
+opencv-python-headless = "^4.5.1"
 psycopg2 = "^2.8"
 pycryptodome = "^3.9.9"
+pytesseract = "^0.3.7"
 python-dateutil = "^2.8"
 pytz = "*"
 
@@ -73,6 +76,7 @@ line_length = 88
 
 [tool.pylint.master]
 load-plugins = "pylint_django"
+extension-pkg-whitelist = "cv2"
 
 [tool.pylint."messages control"]
 disable = "bad-continuation,too-many-ancestors,too-few-public-methods"

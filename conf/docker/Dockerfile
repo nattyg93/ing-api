@@ -1,4 +1,4 @@
-FROM ubuntu:16.04
+FROM ubuntu:20.04
 # Set environment variables
 ENV \
   PYTHONDONTWRITEBYTECODE=1 \
@@ -26,18 +26,19 @@ RUN apt update && \
   postgresql-client \
   libpq-dev \
   curl \
+  tesseract-ocr \
   # Cleaning cache:
   && apt autoremove -y && apt clean -y && rm -rf /var/lib/apt/lists/*
 # Install WKHTMLTOPDF
 RUN curl --show-error --location \
-  https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.xenial_amd64.deb \
-  --output /tmp/wkhtmltox_0.12.6-1.xenial_amd64.deb && \
+  https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.focal_amd64.deb \
+  --output /tmp/wkhtmltox_0.12.6-1.focal_amd64.deb && \
   apt update && \
   apt install -y --no-install-recommends \
-  /tmp/wkhtmltox_0.12.6-1.xenial_amd64.deb && \
+  /tmp/wkhtmltox_0.12.6-1.focal_amd64.deb && \
   # Cleaning cache:
   apt autoremove -y && apt clean -y && rm -rf /var/lib/apt/lists/* && \
-  rm /tmp/wkhtmltox_0.12.6-1.xenial_amd64.deb
+  rm /tmp/wkhtmltox_0.12.6-1.focal_amd64.deb
 # Install Poetry
 RUN python3.7 -mvenv /usr/local/include/poetry && \
   /usr/local/include/poetry/bin/pip install poetry && \
