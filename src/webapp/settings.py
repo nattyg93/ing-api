@@ -74,6 +74,7 @@ INSTALLED_APPS = [
     "webapp.apps.WebAppConfig",
     "common.apps.CommonConfig",
     "users.apps.UsersConfig",
+    "ing.apps.IngConfig",
     # Our defaults
     "corsheaders",
     "anymail",
