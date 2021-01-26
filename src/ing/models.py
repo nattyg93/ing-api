@@ -6,6 +6,9 @@ from typing import Dict, List
 from django.db import models
 from django_cryptography.fields import encrypt
 
+from ing import querysets
+from users.models import User
+
 
 class UpdateOrCreateFromJsonMixin:
     """Add helper functions to allow easy creation of models from json data."""
@@ -64,13 +67,16 @@ class Client(UpdateOrCreateFromJsonMixin, models.Model):
 
     cif = models.CharField(max_length=10)
     first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=30)
     middle_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=30)
     salutation = models.CharField(max_length=10)
 
     credentials = models.ForeignKey(
         to=Credentials, on_delete=models.SET_NULL, null=True, blank=True
     )
+    user = models.ForeignKey(to=User, on_delete=models.PROTECT, null=True, blank=True)
+
+    objects = querysets.ClientQuerySet.as_manager()
 
     update_or_create_kwargs = ["cif"]
     json_field_mapping = {
@@ -93,6 +99,8 @@ class Account(UpdateOrCreateFromJsonMixin, models.Model):
     name = models.CharField(max_length=60)
     available_balance = models.DecimalField(max_digits=14, decimal_places=2)
     owner = models.ForeignKey(to=Client, on_delete=models.CASCADE)
+
+    objects = querysets.AccountQuerySet.as_manager()
 
     update_or_create_kwargs = ["owner", "number"]
     json_field_mapping = {
@@ -118,6 +126,8 @@ class Transaction(UpdateOrCreateFromJsonMixin, models.Model):
     transaction_type = models.IntegerField()
     transaction_group = models.CharField(max_length=20)
     account = models.ForeignKey(to=Account, on_delete=models.CASCADE)
+
+    objects = querysets.TransactionQuerySet.as_manager()
 
     update_or_create_kwargs = ["transaction_id"]
     json_field_mapping = {
